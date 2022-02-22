@@ -1,6 +1,6 @@
 {
     "private": true,
-    "name": "MineSweaper",
+    "name": "Tetris",
     "version": "1.0.0",
     "description": "The classic MineSweaper game",
     "license": "MIT",

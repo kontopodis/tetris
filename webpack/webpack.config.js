@@ -44,7 +44,7 @@ module.exports = (env) => {
 
             new HtmlWebpackPlugin({
         
-              title: "MineSweaper",
+              title: "Tetriss",
         
             }),
         
