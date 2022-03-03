@@ -54,3 +54,36 @@ export const ShapeI = () =>{
         rotation270 :[[0,0,0,0],[1,1,1,1],[0,0,0,0],[0,0,0,0]],
     }
 }
+
+export const Shape = (globals)=>{
+
+  let shape = new Graphics()
+  shape.name = "line"
+  let tetro1 = Tetro(globals,0xe61616)
+  tetro1.name = "tetro1"
+  let tetro2 = Tetro(globals,0xe61616)
+  tetro2.name = "tetro2"
+  let tetro3 = Tetro(globals,0xe61616)
+  tetro3.name = "tetro3"
+  let tetro4 = Tetro(globals,0xe61616)
+  tetro4.name = "tetro4"
+
+  shape.addChild(tetro1)
+  tetro2.y = globals.boxes
+  shape.addChild(tetro2)
+  tetro3.y = globals.boxes*2
+  shape.addChild(tetro3)
+  tetro4.y = globals.boxes*3
+  shape.addChild(tetro4)
+  return shape
+
+}
+export const Tetro = (globals,color)=>{
+
+  let tetro = new Graphics()
+let boxes = globals.boxes;
+  tetro.lineStyle(1,0xffffff,1)
+  tetro.beginFill(color)
+  tetro.drawRect(0,0,boxes,boxes)
+return tetro
+}

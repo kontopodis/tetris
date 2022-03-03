@@ -14,7 +14,7 @@ const lines = globals.lines
     for (let i=0; i<=lines;i++){
 
         for (let j = 0; j<=12;j++){
-            background.drawRect(j*boxes,i*boxes,boxes-3,boxes-3)
+            background.drawRect(j*boxes,i*boxes,boxes,boxes)
         }
     }
   
