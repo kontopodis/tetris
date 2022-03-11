@@ -1,4 +1,4 @@
-import { Graphics } from "pixi.js";
+import { Graphics,Container } from "pixi.js";
 
 
 
@@ -57,7 +57,12 @@ export const ShapeI = () =>{
 
 export const Shape = (globals)=>{
 
-  let shape = new Graphics()
+  let shape = new Container()
+  
+  shape.x = globals.boxes*6
+shape.y = globals.boxes
+shape.pivot.y = globals.boxes*2
+
   shape.name = "line"
   let tetro1 = Tetro(globals,0xe61616)
   tetro1.name = "tetro1"
@@ -67,14 +72,17 @@ export const Shape = (globals)=>{
   tetro3.name = "tetro3"
   let tetro4 = Tetro(globals,0xe61616)
   tetro4.name = "tetro4"
-
-  shape.addChild(tetro1)
+  tetro1.y = 0
+  shape.addChildAt(tetro1,0)
   tetro2.y = globals.boxes
-  shape.addChild(tetro2)
+  shape.addChildAt(tetro2,1)
   tetro3.y = globals.boxes*2
-  shape.addChild(tetro3)
+  shape.addChildAt(tetro3,2)
   tetro4.y = globals.boxes*3
-  shape.addChild(tetro4)
+  shape.addChildAt(tetro4,3)
+
+
+
   return shape
 
 }
