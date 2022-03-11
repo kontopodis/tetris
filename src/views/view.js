@@ -39,7 +39,7 @@ let grid= []
     grid.push(col)
     c++;
   });
-console.log(grid)
+
   return grid;
 }
 

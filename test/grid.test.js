@@ -10,17 +10,17 @@ describe("Init",()=>{
     
         it("Is Array",()=>{
             let matrix = new Grid(10);
-            let grid = matrix.Matrix;
+            let grid = matrix.matrix;
             assert.isNotFalse(grid)
         })
         it("Is 2D Array",()=>{
             let matrix = new Grid(10);
-    let grid = matrix.Matrix;
+    let grid = matrix.matrix;
             assert.isNotFalse(grid[0][0])
         })
         it("Has Objects as values",()=>{
             let matrix = new Grid(10);
-            let grid = matrix.Matrix;
+            let grid = matrix.matrix;
     
             grid.map((rows)=>{
                 rows.map((row)=>{
@@ -31,7 +31,7 @@ describe("Init",()=>{
         })
         it("Sizes are correct",()=>{
             let matrix = new Grid(10);
-            let grid = matrix.Matrix;
+            let grid = matrix.matrix;
     
             assert.strictEqual(grid[0][0].position[0],0)
             assert.strictEqual(grid[1][0].position[0],10)
@@ -49,8 +49,8 @@ describe("Init",()=>{
         //adding a shape
         it("Shape exists and is object",()=>{
             let matrix = new Grid(10);
-            let grid = matrix.Matrix;
-            let shape = matrix.Shape;
+            let grid = matrix.matrix;
+            let shape = matrix.shape;
 
             assert.isNotFalse(shape);
             assert.isNotNull(shape);
@@ -60,10 +60,10 @@ describe("Init",()=>{
         })
         it("Shape exists in grid",()=>{
             let matrix = new Grid(10);
-            let grid = matrix.Matrix;
-            let shape = matrix.Shape;
+            let grid = matrix.matrix;
+            let shape = matrix.shape;
 
-        let coordinates = matrix.ShapeCoordinates
+        let coordinates = matrix.shapeCoordinates
         let countTrues = 0
         let positions = []
         grid.map(rows=>{
@@ -98,7 +98,7 @@ describe("Moves",()=>{
             it("Move the shape left",()=>{
                 let size = 20
             let grid = new Grid(size)
-            let previousCoordinates = grid.ShapeCoordinates
+            let previousCoordinates = grid.shapeCoordinates
             let previousPositions = []
             grid.matrix.map(rows=>{
                 rows.map(row=>{
@@ -110,9 +110,9 @@ describe("Moves",()=>{
 
             grid.moveLeft()
 
-            let nextCoordinates = grid.ShapeCoordinates
+            let nextCoordinates = grid.shapeCoordinates
             let nextPositions = []
-            grid.Matrix.map(rows=>{
+            grid.matrix.map(rows=>{
                 rows.map(row=>{
                     if(row.exists){
                             nextPositions.push(row.position)
@@ -120,7 +120,7 @@ describe("Moves",()=>{
                 })
             })
        
-            console.log(grid.Shape.color)
+            console.log(grid.shape.color)
             console.log("previousPositions: ",previousPositions," nextPositions: ",nextPositions)
             assert.equal(previousPositions[0][0]-size,nextPositions[0][0])
             assert.equal(previousPositions[0][1],nextPositions[0][1])
@@ -143,7 +143,7 @@ describe("Moves",()=>{
             it("Move the shape rigth",()=>{
                 let size = 20
             let grid = new Grid(size)
-            let previousCoordinates = grid.ShapeCoordinates
+            let previousCoordinates = grid.shapeCoordinates
             let previousPositions = []
             grid.matrix.map(rows=>{
                 rows.map(row=>{
@@ -153,11 +153,11 @@ describe("Moves",()=>{
                 })
             })
 
-            grid.moveRigth()
+            grid.moveRight()
 
-            let nextCoordinates = grid.ShapeCoordinates
+            let nextCoordinates = grid.shapeCoordinates
             let nextPositions = []
-            grid.Matrix.map(rows=>{
+            grid.matrix.map(rows=>{
                 rows.map(row=>{
                     if(row.exists){
                             nextPositions.push(row.position)
@@ -165,7 +165,7 @@ describe("Moves",()=>{
                 })
             })
          
-            console.log(grid.Shape.color)
+            console.log(grid.shape.color)
             console.log("previousPositions: ",previousPositions," nextPositions: ",nextPositions)
             assert.equal(previousPositions[0][0]+size,nextPositions[0][0])
             assert.equal(previousPositions[0][1],nextPositions[0][1])
@@ -187,7 +187,7 @@ describe("Moves",()=>{
             it("Move the shape down",()=>{
                 let size = 20
             let grid = new Grid(size)
-            let previousCoordinates = grid.ShapeCoordinates
+            let previousCoordinates = grid.shapeCoordinates
             let previousPositions = []
             grid.matrix.map(rows=>{
                 rows.map(row=>{
@@ -199,9 +199,9 @@ describe("Moves",()=>{
 
             grid.moveDown()
 
-            let nextCoordinates = grid.ShapeCoordinates
+            let nextCoordinates = grid.shapeCoordinates
             let nextPositions = []
-            grid.Matrix.map(rows=>{
+            grid.matrix.map(rows=>{
                 rows.map(row=>{
                     if(row.exists){
                             nextPositions.push(row.position)
@@ -209,7 +209,7 @@ describe("Moves",()=>{
                 })
             })
        
-            console.log(grid.Shape.color)
+            console.log(grid.shape.color)
             console.log("previousPositions: ",previousPositions," nextPositions: ",nextPositions)
             assert.equal(previousPositions[0][0],nextPositions[0][0])
             assert.equal(previousPositions[0][1]+size,nextPositions[0][1])
@@ -228,6 +228,8 @@ describe("Moves",()=>{
             
             })
 })
+
+
 
 describe("Extras",()=>{
     it("random numbers",()=>{

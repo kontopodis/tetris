@@ -47,7 +47,7 @@ const boxes = globals.boxes
 const lines = globals.lines
 
 const middle = (3*boxes/2)
-console.log(boxes,middle)
+
     const button  = new PIXI.Graphics()
 
     button.lineStyle(2,0x999999,1)
@@ -71,7 +71,6 @@ export const buttonRight = (globals) =>{
     const lines = globals.lines
     
     const middle = (3*boxes/2)
-    console.log(boxes,middle)
         const button  = new PIXI.Graphics()
     
         button.lineStyle(2,0x999999,1)
@@ -93,7 +92,7 @@ export const buttonTurn = (globals) =>{
         const lines = globals.lines
         
         const middle = (3*boxes/2)
-        console.log(boxes,middle)
+      
             const button  = new PIXI.Graphics()
         
             button.lineStyle(2,0x999999,1)     
@@ -113,7 +112,7 @@ export const buttonDown = (globals) =>{
             const lines = globals.lines
             
             const middle = (3*boxes/2)
-            console.log(boxes,middle)
+           
                 const button  = new PIXI.Graphics()
             
                 button.lineStyle(2,0x999999,1)        

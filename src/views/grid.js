@@ -4,7 +4,7 @@ class Grid {
   shapeCoordinates;
   flipShapeIndex;
   boxWidth;
-  leftWall = 0;
+  leftWall;
   rightWall;
   floor;
   SHAPES = shapes;
@@ -13,7 +13,8 @@ class Grid {
       .fill(0)
       .map((rows) => new Array(20).fill(0));
     this.boxWidth = size;
-    this.rightWall = size * 10 + size;
+    this.rightWall = size * 10;
+    this.leftWall = size;
     this.floor = 20 * size + size;
 
     for (
@@ -32,7 +33,7 @@ class Grid {
           exists: false,
           isFloor: false,
         };
-        // console.log(initial2DArray[columnIndex][rowIndex])
+     
       }
     }
 
@@ -40,15 +41,7 @@ class Grid {
     this.initShape();
   }
 
-  get Matrix() {
-    return this.matrix;
-  }
-  get Shape() {
-    return this.shape;
-  }
-  get ShapeCoordinates() {
-    return this.shapeCoordinates;
-  }
+
 
   initShape() {
     let id = Math.floor(Math.random() * 7);
@@ -75,7 +68,7 @@ class Grid {
       this.shape = this.SHAPES.taf;
     }
 
-    this.shapeCoordinates = [5, 0];
+    this.shapeCoordinates = [4, 0];
     this.flipShapeIndex = 0;
     this.shape.flip[0].map((col, colIndex) => {
       col.map((row, rowIndex) => {
@@ -91,105 +84,300 @@ class Grid {
     });
   }
   moveLeft() {
+    let Positions = []
+    let previousCoordinates = []
     this.shape.flip[this.flipShapeIndex].map((col, colIndex) => {
       col.map((row, rowIndex) => {
         let coo = [
           colIndex + this.shapeCoordinates[0],
           rowIndex + this.shapeCoordinates[1],
         ];
-        if(this.matrix[coo[0]][coo[1]].position[0] === this.leftWall || this.matrix[coo[0]-1][coo[1]].isFloor===true){
-        }else{       
-             if (row === 1) {
-            this.matrix[coo[0]][coo[1]].color = 0x000000;
-            this.matrix[coo[0]][coo[1]].exists = false;
+        if (row===1){
+          let pos = this.matrix[coo[0]][coo[1]].position
+          previousCoordinates.push([coo[0]-1,coo[1]])
+          Positions.push(pos)
+        }
+      })
+    })
+
+    let allowMove = true
+    Positions.map((pos,index)=>{
+     
+      if(pos[0] < this.leftWall){
+        allowMove = false
+      }
+    })
+    previousCoordinates.map(coo=>{
+    
+      if(coo[0]>=0){
+        let isFloor = this.matrix[coo[0]][coo[1]].isFloor 
+        if(isFloor){ allowMove = false}
+      }
+
+    })
+
+  
+    if (allowMove){
+
+      this.shape.flip[this.flipShapeIndex].map((col, colIndex) => {
+        col.map((row, rowIndex) => {
+          let coo = [
+            colIndex + this.shapeCoordinates[0],
+            rowIndex + this.shapeCoordinates[1],
+          ];
+ 
+          
+              if (row === 1) {
+                this.matrix[coo[0]][coo[1]].color = 0x000000;
+                this.matrix[coo[0]][coo[1]].exists = false;
+              }
+                
+  
+          
+          
+  
+        });
+      });
+      this.shapeCoordinates = [
+        this.shapeCoordinates[0] - 1,
+        this.shapeCoordinates[1],
+      ];
+  
+      this.shape.flip[this.flipShapeIndex].map((col, colIndex) => {
+        col.map((row, rowIndex) => {
+          let coo = [
+            colIndex + this.shapeCoordinates[0],
+            rowIndex + this.shapeCoordinates[1],
+          ];
+          if (row === 1) {
+            this.matrix[coo[0]][coo[1]].color = this.shape.color;
+            this.matrix[coo[0]][coo[1]].exists = true;
           }
-        
-        }
-
+        }); 
       });
-    });
-    this.shapeCoordinates = [
-      this.shapeCoordinates[0] - 1,
-      this.shapeCoordinates[1],
-    ];
-
-    this.shape.flip[this.flipShapeIndex].map((col, colIndex) => {
-      col.map((row, rowIndex) => {
-        let coo = [
-          colIndex + this.shapeCoordinates[0],
-          rowIndex + this.shapeCoordinates[1],
-        ];
-        if (row === 1) {
-          this.matrix[coo[0]][coo[1]].color = this.shape.color;
-          this.matrix[coo[0]][coo[1]].exists = true;
-        }
-      }); 
-    });
+    }
+    /*
+    */
   }
-  moveRigth() {
-    this.shape.flip[this.flipShapeIndex].map((col, colIndex) => {
-      col.map((row, rowIndex) => {
-        let coo = [
-          colIndex + this.shapeCoordinates[0],
-          rowIndex + this.shapeCoordinates[1],
-        ];
-        if (row === 1) {
-          this.matrix[coo[0]][coo[1]].color = 0x000000;
-          this.matrix[coo[0]][coo[1]].exists = false;
-        }
-      });
-    });
-    this.shapeCoordinates = [
-      this.shapeCoordinates[0] + 1,
-      this.shapeCoordinates[1],
-    ];
+  moveRight() {
 
+    let Positions = []
+    let nextCoordinates = []
     this.shape.flip[this.flipShapeIndex].map((col, colIndex) => {
       col.map((row, rowIndex) => {
         let coo = [
           colIndex + this.shapeCoordinates[0],
           rowIndex + this.shapeCoordinates[1],
         ];
-        if (row === 1) {
-          this.matrix[coo[0]][coo[1]].color = this.shape.color;
-          this.matrix[coo[0]][coo[1]].exists = true;
+        if (row===1){
+          let pos = this.matrix[coo[0]][coo[1]].position
+          nextCoordinates.push([coo[0]+1,coo[1]])
+          Positions.push(pos)
         }
-      });
+      })
+    })
+
+    let allowMove = true
+    Positions.map((pos,index)=>{
+    
+      if(pos[0]+this.boxWidth > this.rightWall){
+        allowMove = false
+      }
+    })
+    nextCoordinates.map(coo=>{
+ 
+      if(coo[0]<=this.matrix.length-1){
+        let isFloor = this.matrix[coo[0]][coo[1]].isFloor 
+        if(isFloor){ allowMove = false}
+      }else{allowMove=false}
+
+    })
+
+if (allowMove){
+
+  this.shape.flip[this.flipShapeIndex].map((col, colIndex) => {
+    col.map((row, rowIndex) => {
+      let coo = [
+        colIndex + this.shapeCoordinates[0],
+        rowIndex + this.shapeCoordinates[1],
+      ];
+      if (row === 1) {
+        this.matrix[coo[0]][coo[1]].color = 0x000000;
+        this.matrix[coo[0]][coo[1]].exists = false;
+      }
     });
+  });
+  this.shapeCoordinates = [
+    this.shapeCoordinates[0] + 1,
+    this.shapeCoordinates[1],
+  ];
+
+  this.shape.flip[this.flipShapeIndex].map((col, colIndex) => {
+    col.map((row, rowIndex) => {
+      let coo = [
+        colIndex + this.shapeCoordinates[0],
+        rowIndex + this.shapeCoordinates[1],
+      ];
+      if (row === 1) {
+        this.matrix[coo[0]][coo[1]].color = this.shape.color;
+        this.matrix[coo[0]][coo[1]].exists = true;
+      }
+    });
+  });
+}
   }
 
   moveDown() {
-    this.shape.flip[this.flipShapeIndex].map((col, colIndex) => {
-      col.map((row, rowIndex) => {
-        let coo = [
-          colIndex + this.shapeCoordinates[0],
-          rowIndex + this.shapeCoordinates[1],
-        ];
-        if (row === 1) {
-          this.matrix[coo[0]][coo[1]].color = 0x000000;
-          this.matrix[coo[0]][coo[1]].exists = false;
-        }
-      });
-    });
-    this.shapeCoordinates = [
-      this.shapeCoordinates[0],
-      this.shapeCoordinates[1] + 1,
-    ];
 
+    let Positions = []
+    let nextCoordinates = []
+    let parentCoordinates = []
     this.shape.flip[this.flipShapeIndex].map((col, colIndex) => {
       col.map((row, rowIndex) => {
         let coo = [
           colIndex + this.shapeCoordinates[0],
           rowIndex + this.shapeCoordinates[1],
         ];
-        if (row === 1) {
-          this.matrix[coo[0]][coo[1]].color = this.shape.color;
-          this.matrix[coo[0]][coo[1]].exists = true;
+        if (row===1){
+          let pos = this.matrix[coo[0]][coo[1]].position
+          nextCoordinates.push([coo[0],coo[1]+1])
+          Positions.push(pos)
+          parentCoordinates.push(coo)
         }
+      })
+    })
+
+    let allowMove = true
+    Positions.map((pos,index)=>{
+    
+      if(pos[1]+this.boxWidth > this.floor){
+        allowMove = false
+      }
+    })
+    nextCoordinates.map((coo,index)=>{
+      console.log(index,": ",coo)
+      if(coo[1]<=this.matrix[1].length-1){
+        let isFloor = this.matrix[coo[0]][coo[1]].isFloor 
+        if(isFloor){ allowMove = false}
+      }else{allowMove=false}
+
+    })
+
+    if(allowMove){
+      this.shape.flip[this.flipShapeIndex].map((col, colIndex) => {
+        col.map((row, rowIndex) => {
+          let coo = [
+            colIndex + this.shapeCoordinates[0],
+            rowIndex + this.shapeCoordinates[1],
+          ];
+          if (row === 1) {
+            this.matrix[coo[0]][coo[1]].color = 0x000000;
+            this.matrix[coo[0]][coo[1]].exists = false;
+          }
+        });
       });
-    });
+      this.shapeCoordinates = [
+        this.shapeCoordinates[0],
+        this.shapeCoordinates[1] + 1,
+      ];
+  
+      this.shape.flip[this.flipShapeIndex].map((col, colIndex) => {
+        col.map((row, rowIndex) => {
+          let coo = [
+            colIndex + this.shapeCoordinates[0],
+            rowIndex + this.shapeCoordinates[1],
+          ];
+          if (row === 1) {
+            console.log(coo)
+            this.matrix[coo[0]][coo[1]].color = this.shape.color;
+            this.matrix[coo[0]][coo[1]].exists = true;
+          }
+        });
+      });
+    }else{
+
+      parentCoordinates.map(row=>{
+        this.matrix[row[0]][row[1]].isFloor = true;
+      })
+
+      this.initShape()
+    }
+
   }
 
+  flipShape(){
+    let allowMove = true
+    let Positions = []
+    let nextCoordinates = []
+    let previousFlipIndex = this.flipShapeIndex;
+    let currentCoordinates = []
+    if(this.shape.flip.length-1 > this.flipShapeIndex){
+      this.flipShapeIndex++
+    }else{
+      this.flipShapeIndex=0;
+    }
+
+    if(previousFlipIndex === this.flipShapeIndex){
+      allowMove = false;
+    }
+   
+    this.shape.flip[this.flipShapeIndex].map((col, colIndex) => {
+      col.map((row, rowIndex) => {
+        let coo = [
+          colIndex + this.shapeCoordinates[0],
+          rowIndex + this.shapeCoordinates[1],
+        ];
+        if (row===1){
+          let pos = this.matrix[coo[0]][coo[1]].position
+          nextCoordinates.push([coo[0]+1,coo[1]])
+          Positions.push(pos)
+          currentCoordinates.push(coo)
+
+        }
+      })
+    })
+
+   
+    nextCoordinates.map(coo=>{
+      let box = this.matrix[coo[0]][coo[1]]
+      if(box.isFloor){allowMove=false}
+  
+      if(box.position[1] > this.floor || box.position[1] > this.rightWall || box.position[0] < this.leftWall){
+        allowMove = false
+        console.log(allowMove,box)
+      }      
+    })
+
+    if (allowMove){
+      this.shape.flip[previousFlipIndex].map((col, colIndex) => {
+        col.map((row, rowIndex) => {
+          let coo = [
+            colIndex + this.shapeCoordinates[0],
+            rowIndex + this.shapeCoordinates[1],
+          ];
+          if (row === 1) {
+            this.matrix[coo[0]][coo[1]].color = 0x000000;
+            this.matrix[coo[0]][coo[1]].exists = false;
+          }
+        });
+      });
+
+    
+      this.shape.flip[this.flipShapeIndex].map((col, colIndex) => {
+        col.map((row, rowIndex) => {
+          let coo = [
+            colIndex + this.shapeCoordinates[0],
+            rowIndex + this.shapeCoordinates[1],
+          ];
+          if (row === 1) {
+            this.matrix[coo[0]][coo[1]].color = this.shape.color;
+            this.matrix[coo[0]][coo[1]].exists = true;
+          }
+        });
+      });
+    }
+
+  }
 
 }
 
