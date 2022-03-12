@@ -230,6 +230,86 @@ describe("Moves",()=>{
 })
 
 
+describe("Delete",()=>{
+    let matrix = new Grid(10).matrix
+
+    matrix[0][19].isFloor = true;
+    matrix[1][19].isFloor = true;
+    matrix[2][19].isFloor = true;
+    matrix[3][19].isFloor = true;
+    matrix[4][19].isFloor = true;
+    matrix[5][19].isFloor = true;
+    matrix[6][19].isFloor = true;
+    matrix[7][19].isFloor = true;
+    matrix[8][19].isFloor = true;
+    matrix[9][19].isFloor = true;
+
+    matrix[0][18].isFloor = true;
+    matrix[5][18].isFloor = true;
+    matrix[9][18].isFloor = true;
+
+    function deleteLine(line){
+
+        for(let rows = line; rows > 1; rows--){
+          
+          for(let i = 0; i < 10;i++){
+              console.log(i,rows)
+        //thisis not working    
+            let row = matrix[i][rows-1]
+            matrix[i][rows] = row 
+        
+          }
+        }
+          }
+    it("Delete function",()=>{
+
+        assert.isTrue(matrix[0][19].isFloor)
+        assert.isTrue(matrix[1][19].isFloor)
+        assert.isTrue(matrix[2][19].isFloor)
+        assert.isTrue(matrix[3][19].isFloor)
+        assert.isTrue(matrix[4][19].isFloor)
+        assert.isTrue(matrix[5][19].isFloor)
+        assert.isTrue(matrix[6][19].isFloor)
+        assert.isTrue(matrix[7][19].isFloor)
+        assert.isTrue(matrix[8][19].isFloor)
+        assert.isTrue(matrix[9][19].isFloor)
+
+        assert.isTrue(matrix[0][18].isFloor)
+        assert.isTrue(matrix[5][18].isFloor)
+        assert.isTrue(matrix[9][18].isFloor) 
+
+        deleteLine(19)
+
+        assert.isFalse(matrix[0][18].isFloor)
+        assert.isFalse(matrix[1][18].isFloor)
+        assert.isFalse(matrix[2][18].isFloor)
+        assert.isFalse(matrix[3][18].isFloor)
+        assert.isFalse(matrix[4][18].isFloor)
+        assert.isFalse(matrix[5][18].isFloor)
+        assert.isFalse(matrix[6][18].isFloor)
+        assert.isFalse(matrix[7][18].isFloor)
+        assert.isFalse(matrix[8][18].isFloor)
+        assert.isFalse(matrix[9][18].isFloor)
+
+        assert.isTrue(matrix[0][19].isFloor)
+
+        assert.isFalse(matrix[1][19].isFloor)
+        assert.isFalse(matrix[2][19].isFloor)
+        assert.isFalse(matrix[3][19].isFloor)
+        assert.isFalse(matrix[4][19].isFloor)
+
+        assert.isTrue(matrix[5][19].isFloor)
+        assert.isFalse(matrix[6][19].isFloor)
+        assert.isFalse(matrix[7][19].isFloor)
+        assert.isFalse(matrix[8][19].isFloor)
+
+        assert.isTrue(matrix[9][19].isFloor)
+
+        assert.equal(matrix.length,10)
+        assert.equal(matrix[0].length,20)
+
+})
+})
 
 describe("Extras",()=>{
     it("random numbers",()=>{

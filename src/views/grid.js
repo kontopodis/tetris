@@ -2,12 +2,15 @@ class Grid {
   matrix;
   shape;
   shapeCoordinates;
+  shapeCoordinatesArray=[];
   flipShapeIndex;
   boxWidth;
   leftWall;
   rightWall;
   floor;
   SHAPES = shapes;
+  GameOver = false;
+  Score;
   constructor(size) {
     const initial2DArray = new Array(10)
       .fill(0)
@@ -16,6 +19,7 @@ class Grid {
     this.rightWall = size * 10;
     this.leftWall = size;
     this.floor = 20 * size + size;
+    this.Score = 0;
 
     for (
       let columnIndex = 0;
@@ -169,6 +173,7 @@ class Grid {
           colIndex + this.shapeCoordinates[0],
           rowIndex + this.shapeCoordinates[1],
         ];
+     
         if (row===1){
           let pos = this.matrix[coo[0]][coo[1]].position
           nextCoordinates.push([coo[0]+1,coo[1]])
@@ -255,7 +260,7 @@ if (allowMove){
       }
     })
     nextCoordinates.map((coo,index)=>{
-      console.log(index,": ",coo)
+      
       if(coo[1]<=this.matrix[1].length-1){
         let isFloor = this.matrix[coo[0]][coo[1]].isFloor 
         if(isFloor){ allowMove = false}
@@ -287,10 +292,12 @@ if (allowMove){
             colIndex + this.shapeCoordinates[0],
             rowIndex + this.shapeCoordinates[1],
           ];
+          let i = 0
           if (row === 1) {
-            console.log(coo)
+          
             this.matrix[coo[0]][coo[1]].color = this.shape.color;
             this.matrix[coo[0]][coo[1]].exists = true;
+            this.shapeCoordinatesArray[i] = coo;
           }
         });
       });
@@ -298,9 +305,15 @@ if (allowMove){
 
       parentCoordinates.map(row=>{
         this.matrix[row[0]][row[1]].isFloor = true;
+        this.matrix[row[0]][row[1]].exists = false;
+        if(row[1]===0){this.GameOver = true}
       })
 
-      this.initShape()
+      if(this.GameOver === false){
+        this.initShape()
+        this.deleteCompletedLines(parentCoordinates)
+      }
+
     }
 
   }
@@ -327,24 +340,27 @@ if (allowMove){
           colIndex + this.shapeCoordinates[0],
           rowIndex + this.shapeCoordinates[1],
         ];
+     
+        if(coo[0]<0 || coo[0]>9){allowMove=false}else{
         if (row===1){
           let pos = this.matrix[coo[0]][coo[1]].position
-          nextCoordinates.push([coo[0]+1,coo[1]])
           Positions.push(pos)
           currentCoordinates.push(coo)
 
         }
+      }
       })
     })
 
    
-    nextCoordinates.map(coo=>{
+    currentCoordinates.map(coo=>{
+
       let box = this.matrix[coo[0]][coo[1]]
       if(box.isFloor){allowMove=false}
   
-      if(box.position[1] > this.floor || box.position[1] > this.rightWall || box.position[0] < this.leftWall){
+      if(box.position[1] > this.floor || box.position[0] > this.rightWall || box.position[0] < this.leftWall){
         allowMove = false
-        console.log(allowMove,box)
+      
       }      
     })
 
@@ -375,10 +391,49 @@ if (allowMove){
           }
         });
       });
-    }
+    }else{this.flipShapeIndex = previousFlipIndex}
 
   }
 
+  deleteCompletedLines(coordinates){
+
+    for (let rows = 0; rows<coordinates.length;rows++){
+      let line = coordinates[rows][1]
+      let floorBoxes = 0;
+      for (let cols = 0; cols<this.matrix.length;cols++){
+
+        if(this.matrix[cols][coordinates[rows][1]].isFloor){floorBoxes++}
+
+      }
+      if(floorBoxes===10){
+        console.log("delete: ", line, floorBoxes)
+        console.log(this.floor)
+        this.Score = this.Score + 10;
+        console.log(this.Score)
+        this.deleteLine(line)
+      }
+    }
+  }
+  deleteLine(line){
+
+for(let rows = line; rows > 1; rows--){
+  
+  for(let i = 0; i < 10;i++){
+//thisis not working    
+    let exists = this.matrix[i][rows-1].exists
+    if (exists){}else{
+      let color = this.matrix[i][rows-1].color
+      let isfloor = this.matrix[i][rows-1].isFloor
+      this.matrix[i][rows].color = color 
+      this.matrix[i][rows].isFloor = isfloor
+      this.matrix[i][rows].exists = false
+
+    }
+
+
+  }
+}
+  }
 }
 
 const shapes = {
