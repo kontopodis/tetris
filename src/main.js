@@ -6,7 +6,6 @@ import {
   buttonTurn,
   buttonDown,
 } from "./views/essentials";
-import { buildGrid, Shape, ShapeI, Tetro } from "./views/view";
 import Grid from './views/grid'
 const ScreenWidth = window.innerWidth - 18;
 const ScreenHeight = window.innerHeight - 20;

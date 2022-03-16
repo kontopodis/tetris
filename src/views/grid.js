@@ -358,9 +358,10 @@ if (allowMove){
       let box = this.matrix[coo[0]][coo[1]]
       if(box.isFloor){allowMove=false}
   
-      if(box.position[1] > this.floor || box.position[0] > this.rightWall || box.position[0] < this.leftWall){
+      if(box.position[1] > this.floor || box.position[0] >= this.rightWall || box.position[0] < 0){
         allowMove = false
       
+        console.log(box.position, this.rightWall,this.leftWall)
       }      
     })
 
@@ -391,7 +392,9 @@ if (allowMove){
           }
         });
       });
-    }else{this.flipShapeIndex = previousFlipIndex}
+    }else{this.flipShapeIndex = previousFlipIndex
+    console.log()
+    }
 
   }
 
@@ -489,27 +492,27 @@ const shapes = {
     ],
   },
   seven: {
-    color: 0x001aff,
+    color: 0xFF6911,
     flip: [
       [
-        [0, 1, 1],
-        [0, 1, 0],
-        [0, 1, 0],
-      ],
-      [
-        [0, 0, 0],
-        [1, 1, 1],
-        [0, 0, 1],
-      ],
-      [
-        [0, 1, 0],
-        [0, 1, 0],
         [1, 1, 0],
+        [0, 1, 0],
+        [0, 1, 0],
       ],
       [
-        [1, 0, 0],
+        [0, 0, 1],
         [1, 1, 1],
         [0, 0, 0],
+      ],
+      [
+        [0, 1, 0],
+        [0, 1, 0],
+        [0, 1, 1],
+      ],
+      [
+        [0, 0, 0],
+        [1, 1, 1],
+        [1, 0, 0],
       ],
     ],
   },
@@ -525,17 +528,8 @@ const shapes = {
         [0, 1, 0],
         [0, 1, 1],
         [0, 0, 1],
-      ],
-      [
-        [0, 0, 0],
-        [0, 1, 1],
-        [1, 1, 0],
-      ],
-      [
-        [1, 0, 0],
-        [1, 1, 0],
-        [0, 1, 0],
-      ],
+      ]
+
     ],
   },
   zita: {
@@ -550,17 +544,7 @@ const shapes = {
         [0, 0, 1],
         [0, 1, 1],
         [0, 1, 0],
-      ],
-      [
-        [0, 0, 0],
-        [1, 1, 0],
-        [0, 1, 1],
-      ],
-      [
-        [0, 1, 0],
-        [1, 1, 0],
-        [1, 0, 0],
-      ],
+      ]
     ],
   },
   taf: {
